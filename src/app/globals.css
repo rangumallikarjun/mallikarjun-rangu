@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+:root {
+  --background: #05060f;
+  --foreground: #e7e8ec;
+}
+
+@theme inline {
+  --color-bg: #05060f;
+  --color-bg-secondary: #0b0d1c;
+  --color-surface: #0f1024;
+  --color-foreground: #e7e8ec;
+  --color-muted: #9aa0b4;
+  --color-primary: #8b5cf6;
+  --color-primary-light: #a78bfa;
+  --color-secondary: #22d3ee;
+  --color-accent: #f472b6;
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+
+  --animate-blob: blob 18s infinite;
+  --animate-gradient-x: gradient-x 6s ease infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-draw: draw 1.2s ease forwards;
+}
+
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(4%, -6%) scale(1.1);
+  }
+  66% {
+    transform: translate(-4%, 4%) scale(0.95);
+  }
+}
+
+@keyframes gradient-x {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), sans-serif;
+}
+
+/* Glassmorphism surfaces */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-strong {
+  background: rgba(15, 16, 36, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Gradient text */
+.text-gradient {
+  background-image: linear-gradient(
+    90deg,
+    var(--color-primary-light),
+    var(--color-accent),
+    var(--color-secondary)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glow border on hover */
+.glow-border {
+  position: relative;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+}
+
+.glow-border:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.2), 0 20px 60px -20px rgba(139, 92, 246, 0.45);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-primary), var(--color-secondary));
+  border-radius: 999px;
+}

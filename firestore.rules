@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// SETUP: replace the placeholder below with your admin user's UID
+// (Firebase console -> Authentication -> Users -> copy the "User UID"
+// after you create the single admin account). This is the only
+// identity ever allowed to write content in this database.
+function isAdmin() {
+  return request.auth != null && request.auth.uid == "jPkV5Af2iwYV6jmDQklxXaTIyq93";
+}
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Singleton content docs: content/hero, content/about
+    match /content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Skills, experience, projects: publicly readable, admin-only write
+    match /skills/{skillId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /experience/{expId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact messages: anyone can submit, only admin can read/manage
+    match /messages/{messageId} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'message', 'createdAt', 'read'])
+        && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200
+        && request.resource.data.email is string && request.resource.data.email.size() > 0 && request.resource.data.email.size() < 200
+        && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() < 5000
+        && request.resource.data.read == false;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
